@@ -63,16 +63,34 @@ public class TargetScore : MonoBehaviour
                 scoreManager.AddScore(pointValue);
             }
 
-            // エフェクト再生
+
             if (hitEffectPrefab != null)
             {
                 Vector3 spawnPos = transform.position + Vector3.up * 0.5f;
-                GameObject effectObj = Instantiate(hitEffectPrefab, spawnPos, Quaternion.identity);
-                Destroy(effectObj, 2f);
+                EffectManager.Instance.PlayEffect(hitEffectPrefab, spawnPos, 2f);
+            }
+            
+            if (hitEffectPrefab != null)
+            {
+                Vector3 spawnPos = transform.position + Vector3.up * 0.5f;
+
+                // エフェクト再生（すでにある）
+                EffectManager.Instance.PlayEffect(hitEffectPrefab, spawnPos, 2f);
+
+                // クリティカル音再生（追加）
+                SoundManager.Instance.PlaySound(SoundManager.Instance.criticalSound, spawnPos);
             }
 
-            // 一度当たったリングは削除
-            Destroy(other.gameObject);
+            // エフェクト再生
+            // if (hitEffectPrefab != null)
+            // {
+            //     Vector3 spawnPos = transform.position + Vector3.up * 0.5f;
+            //     GameObject effectObj = Instantiate(hitEffectPrefab, spawnPos, Quaternion.identity);
+            //     Destroy(effectObj, 2f);
+            // }
+
+            // // 一度当たったリングは削除
+            // Destroy(other.gameObject);
         }
     }
 }

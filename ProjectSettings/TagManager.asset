@@ -5,6 +5,9 @@ TagManager:
   serializedVersion: 2
   tags:
   - Ring
+  - Ground
+  - Water
+  - TurtleShell
   layers:
   - Default
   - TransparentFX

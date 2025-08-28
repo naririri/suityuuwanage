@@ -9,3 +9,13 @@
 # TextMeshPro generated files
 *.asset
 *.sdf
+# Unityの不要フォルダ
+[Ll]ibrary/
+[Tt]emp/
+[Bb]uild/
+[Bb]uilds/
+obj/
+
+# TextMeshProフォントの巨大アセットも除外
+Assets/TempFonts/
+Assets/TextMesh Pro/Fonts/*.asset

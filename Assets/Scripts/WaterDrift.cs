@@ -30,6 +30,6 @@ public class WaterDrift : MonoBehaviour
         rb.AddForce(sideForce, ForceMode.Force);
 
         // 水中の抵抗を再現（空気抵抗のように速度を減衰）
-        rb.velocity *= resistance;
+        rb.linearVelocity *= resistance;
     }
 }

@@ -198,3 +198,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pointValue: 10
   hitEffectPrefab: {fileID: 2720555730336050207, guid: 987968ed6336f4c13a0d6f1a1d860548, type: 3}
+  scorePopupPrefab: {fileID: 4872991494005057811, guid: d2e554371a4e74c2ebfb5c0dd94ed6ba, type: 3}

@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class RandomSwimmer : MonoBehaviour
 {
-    public float moveSpeed = 1f;        // 移動速度
-    public float turnSpeed = 30f;       // 向きを変える速さ
+    public float moveSpeed = 2f;        // 移動速度
+    public float turnSpeed = 10f;       // 向きを変える速さ
     public float directionChangeInterval = 3f; // ランダムに方向転換する間隔（秒）
 
     public float areaLimitX = 1f;  // X軸の移動範囲（±）

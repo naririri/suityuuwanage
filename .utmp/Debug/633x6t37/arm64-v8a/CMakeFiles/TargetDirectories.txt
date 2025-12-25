@@ -1,0 +1,5 @@
+/Users/takahashimasanari/UnityProjects/UnderwaterRingToss/.utmp/Debug/633x6t37/arm64-v8a/CMakeFiles/edit_cache.dir
+/Users/takahashimasanari/UnityProjects/UnderwaterRingToss/.utmp/Debug/633x6t37/arm64-v8a/CMakeFiles/rebuild_cache.dir
+/Users/takahashimasanari/UnityProjects/UnderwaterRingToss/.utmp/Debug/633x6t37/arm64-v8a/FramePacing/CMakeFiles/swappywrapper.dir
+/Users/takahashimasanari/UnityProjects/UnderwaterRingToss/.utmp/Debug/633x6t37/arm64-v8a/FramePacing/CMakeFiles/edit_cache.dir
+/Users/takahashimasanari/UnityProjects/UnderwaterRingToss/.utmp/Debug/633x6t37/arm64-v8a/FramePacing/CMakeFiles/rebuild_cache.dir

@@ -272,7 +272,7 @@ public class TargetScore : MonoBehaviour
             SoundManager.Instance.PlaySound(SoundManager.Instance.criticalSound, transform.position);
         }
 
-        // 多重ヒット防止など必要に応じて
-        // Destroy(other.gameObject);
+        //多重ヒット防止など必要に応じて
+        Destroy(other.gameObject);
     }
 }

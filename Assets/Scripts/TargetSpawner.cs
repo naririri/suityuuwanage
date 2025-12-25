@@ -6,9 +6,9 @@ public class TargetSpawner : MonoBehaviour
 {
     public GameObject targetPrefab;
     public int spawnCount = 5;
-    public Vector2 spawnAreaMin = new Vector2(-3f, -3f);
-    public Vector2 spawnAreaMax = new Vector2(3f, 3f);
-    public float minDistanceBetweenTargets = 1.5f; // ポール同士の最小距離
+    public Vector2 spawnAreaMin = new Vector2(-1.5f, -1.5f);// 範囲の最小（X,Z）
+    public Vector2 spawnAreaMax = new Vector2(1.5f, 1.5f);// 範囲の最小（X,Z）
+    public float minDistanceBetweenTargets = 1f; // ポール同士の最小距離
 
     private List<Vector3> spawnedPositions = new List<Vector3>(); // すでに配置された位置
 

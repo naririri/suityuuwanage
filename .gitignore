@@ -1,3 +1,5 @@
+
+# ========== Unity 一般 ==========
 [Ll]ibrary/
 [Tt]emp/
 [Oo]bj/
@@ -5,17 +7,58 @@
 [Bb]uilds/
 [Ll]ogs/
 [Mm]emoryCaptures/
+UserSettings/
 
-# TextMeshPro generated files
-*.asset
-*.sdf
-# Unityの不要フォルダ
-[Ll]ibrary/
-[Tt]emp/
-[Bb]uild/
-[Bb]uilds/
-obj/
+# ========== OS・IDE系 ==========
+.DS_Store
+.vscode/
+.idea/
+*.swp
+*.swo
 
-# TextMeshProフォントの巨大アセットも除外
-Assets/TempFonts/
+# ========== Auto-generated ==========
+*.pidb
+*.suo
+*.user
+*.userprefs
+*.unityproj
+*.booproj
+*.svd
+*.pdb
+*.mdb
+
+# ========== TextMeshPro ==========
+# 自動生成されるフォントアセットなど
 Assets/TextMesh Pro/Fonts/*.asset
+Assets/TempFonts/
+
+# ========== Addressables / Build Cache ==========
+Assets/AddressableAssetsData/*
+!Assets/AddressableAssetsData/*.asset
+!Assets/AddressableAssetsData/*.meta
+
+# ========== Collab・Plastic SCM ==========
+.collabignore
+PlasticSCM/
+*.plastic
+*.meta4
+*.meta2
+
+# ========== StreamingAssets (大容量対策任意) ==========
+# StreamingAssets内で大きな動画や音声を扱う場合はLFS推奨
+# Assets/StreamingAssets/*.mp4
+# Assets/StreamingAssets/*.wav
+
+# ========== その他 ==========
+# Unityが自動生成するファイル
+*.csproj
+*.unityproj
+*.sln
+*.tmp
+*.bak
+*.orig
+*.old
+
+# ========== Rider / JetBrains ==========
+.idea/
+*.iml

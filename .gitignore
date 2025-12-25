@@ -62,3 +62,9 @@ PlasticSCM/
 # ========== Rider / JetBrains ==========
 .idea/
 *.iml
+
+# Build artifacts
+*.apk
+*.aab
+*.ipa
+*.cpgz

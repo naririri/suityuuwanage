@@ -1,0 +1,1 @@
+/Users/takahashimasanari/UnityProjects/UnderwaterRingToss/Library/Bee/Android/Prj/IL2CPP/Gradle/unityLibrary/src/main/cpp/FramePacing/UnitySwappyWrapper.h

@@ -26,6 +26,10 @@ public class AdManager : MonoBehaviour
         // リワードが閉じられたら次を自動先読み（あなたのLibrary側でやるなら不要）
         AdmobLibrary.OnReward += _ => { /* 報酬付与は呼び手側で */ };
     }
+    public void HideBanner()
+    {
+        AdmobLibrary.DestroyBanner();
+    }
 
     private void InitIfNeeded()
     {
@@ -37,20 +41,34 @@ public class AdManager : MonoBehaviour
     private void OnSceneLoaded(Scene scene, LoadSceneMode _)
     {
         // Titleではバナー表示、それ以外は消す
+        // if (scene.name == "Title")
+        // {
+        //     // アダプティブ／下部／必要なら折りたたみ
+        //     AdmobLibrary.RequestBanner(AdSize.Banner, AdPosition.Bottom, collapsible: true);
+        // }
+        // else
+        // {
+        //     AdmobLibrary.DestroyBanner();
+        // }
+
+        // // ゲーム終了時にリワードを使う運用なら、ゲームプレイ中に先読みしておく
+        // if (scene.name == "Main" || scene.name == "Game")
+        // {
+        //     AdmobLibrary.LoadReward(); // 複数回呼んでもLibrary側で上書き直しOK
+        // }
         if (scene.name == "Title")
         {
-            // アダプティブ／下部／必要なら折りたたみ
             AdmobLibrary.RequestBanner(AdSize.Banner, AdPosition.Bottom, collapsible: true);
-        }
-        else
-        {
-            AdmobLibrary.DestroyBanner();
+            // Titleではリワード不要ならロードしない
+            return;
         }
 
-        // ゲーム終了時にリワードを使う運用なら、ゲームプレイ中に先読みしておく
-        if (scene.name == "Main" || scene.name == "Game")
+        // Title以外
+        AdmobLibrary.DestroyBanner();
+
+        if (scene.name == "Main")
         {
-            AdmobLibrary.LoadReward(); // 複数回呼んでもLibrary側で上書き直しOK
+            AdmobLibrary.LoadReward(); // ← mainで先読み
         }
     }
 

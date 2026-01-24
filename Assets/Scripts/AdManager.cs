@@ -66,8 +66,10 @@ public class AdManager : MonoBehaviour
         // Title以外
         AdmobLibrary.DestroyBanner();
 
-        if (scene.name == "Main")
+        Debug.Log("Test1");
+        if (scene.name == "main")
         {
+            Debug.Log("Test2");
             AdmobLibrary.LoadReward(); // ← mainで先読み
         }
     }

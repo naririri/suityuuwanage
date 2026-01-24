@@ -551,6 +551,40 @@ public class RingDropManager : MonoBehaviour
         if (buttonReturnToTitle != null) buttonReturnToTitle.SetActive(true);
     }
 
+
+    public void ShowReword()
+    {
+        //リワード呼ぶ
+        AdManager.Instance.ShowRewarded();
+    }
+
+    void OnEnable()
+    {
+        AdmobLibrary.OnReward += OnRewarded;   // 報酬受け取り
+    }
+
+    void OnDisable()
+    {
+        AdmobLibrary.OnReward -= OnRewarded;
+    }
+
+    //リワードを受け取った
+    private void OnRewarded(double amount)
+    {
+        Debug.Log("OnRewarded リワードを受け取ったので報酬を反映する" );
+        // ここで「追加投球」を付与
+        maxThrows += 1;
+        UpdateThrowCountUI();
+
+        // 次の投球へ戻す
+        buttonShowResults.SetActive(false);
+        buttonContinueAd.SetActive(false);
+        gameOverPanel.SetActive(false);
+        if (buttonReturnToTitle != null) buttonReturnToTitle.SetActive(false);
+
+        ReturnToTopView();
+    }
+
     public void ContinueWithAd()
     {
         maxThrows++;

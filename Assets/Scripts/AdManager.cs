@@ -271,6 +271,7 @@ public class AdManager : MonoBehaviour
         // Title以外：バナー消す
         AdmobLibrary.DestroyBanner();
 
+<<<<<<< HEAD
         // Main：リワード先読み（必要ならここで）
         if (scene.name == "Main")
         {
@@ -278,6 +279,13 @@ public class AdManager : MonoBehaviour
             // Interstitialもここで先読みしたいなら（InitInterstitialが自動なら不要）
             // ※もし「not ready」が多いなら、ここでロード済み状態を作るのが効果的
             // AdmobLibrary.LoadInterstitial();  ←あなたが実装している場合のみ
+=======
+        Debug.Log("Test1");
+        if (scene.name == "main")
+        {
+            Debug.Log("Test2");
+            AdmobLibrary.LoadReward(); // ← mainで先読み
+>>>>>>> 213fabbce76f4c5986605969e38941d1711e15c6
         }
     }
 

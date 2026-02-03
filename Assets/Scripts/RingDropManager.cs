@@ -606,6 +606,7 @@ public class RingDropManager : MonoBehaviour
         if (buttonReturnToTitle != null) buttonReturnToTitle.SetActive(true);
     }
 
+<<<<<<< HEAD
     // public void ContinueWithAd()
     // {
     //     maxThrows++;
@@ -777,11 +778,40 @@ public class RingDropManager : MonoBehaviour
         UpdateThrowCountUI();
 
         // UI閉じる
+=======
+
+    public void ShowReword()
+    {
+        //リワード呼ぶ
+        AdManager.Instance.ShowRewarded();
+    }
+
+    void OnEnable()
+    {
+        AdmobLibrary.OnReward += OnRewarded;   // 報酬受け取り
+    }
+
+    void OnDisable()
+    {
+        AdmobLibrary.OnReward -= OnRewarded;
+    }
+
+    //リワードを受け取った
+    private void OnRewarded(double amount)
+    {
+        Debug.Log("OnRewarded リワードを受け取ったので報酬を反映する" );
+        // ここで「追加投球」を付与
+        maxThrows += 1;
+        UpdateThrowCountUI();
+
+        // 次の投球へ戻す
+>>>>>>> 213fabbce76f4c5986605969e38941d1711e15c6
         buttonShowResults.SetActive(false);
         buttonContinueAd.SetActive(false);
         gameOverPanel.SetActive(false);
         if (buttonReturnToTitle != null) buttonReturnToTitle.SetActive(false);
 
+<<<<<<< HEAD
         // 状態戻す
         isDropping = false;
         waitingForNextThrow = false;
@@ -982,6 +1012,11 @@ public class RingDropManager : MonoBehaviour
     // （任意）広告を見ずに続行する処理は使わない想定
     // もし既存で割り当て済みなら、OnClickは WatchRewardAndContinue に変更してください
     // =========================
+=======
+        ReturnToTopView();
+    }
+
+>>>>>>> 213fabbce76f4c5986605969e38941d1711e15c6
     public void ContinueWithAd()
     {
         Debug.LogWarning("[RingDropManager] ContinueWithAd() is legacy. Use WatchRewardAndContinue().");

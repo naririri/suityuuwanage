@@ -15,27 +15,52 @@ public class AdmobLibrary
 
 	public static Action OnLoadedInterstitial;
 
+	public static Action OnRewardClosed;
+
 	/// <summary>
 	/// ゲーム起動　初回に一度だけ呼ぶ
 	/// </summary>
-	public static void FirstSetting()
-	{
-		//13歳以下を対象と「する」場合はtrue
-		RequestConfiguration request = new RequestConfiguration
-		{
-			TagForChildDirectedTreatment = TagForChildDirectedTreatment.False
-		};
+	// public static void FirstSetting()
+	// {
+	// 	//13歳以下を対象と「する」場合はtrue
+	// 	RequestConfiguration request = new RequestConfiguration
+	// 	{
+	// 		TagForChildDirectedTreatment = TagForChildDirectedTreatment.False
+	// 	};
 
 
-		MobileAds.SetRequestConfiguration(request);
+	// 	MobileAds.SetRequestConfiguration(request);
 
-		MobileAds.Initialize((InitializationStatus initStatus) =>
-		{
-			// This callback is called once the MobileAds SDK is initialized.
-			InitInterstitial();
+	// 	MobileAds.Initialize((InitializationStatus initStatus) =>
+	// 	{
+	// 		// This callback is called once the MobileAds SDK is initialized.
+	// 		InitInterstitial();
 
-		});
-	}
+	// 	});
+	// }
+public static void FirstSetting()
+{
+    RequestConfiguration request = new RequestConfiguration
+    {
+        TagForChildDirectedTreatment = TagForChildDirectedTreatment.False
+    };
+
+    MobileAds.SetRequestConfiguration(request);
+
+    MobileAds.Initialize((InitializationStatus initStatus) =>
+    {
+        Debug.Log("[AdmobLibrary] Initialize OK");
+        InitInterstitial();
+
+        // ★重要：初期化できたら必ずリワード先読み
+        LoadReward();
+    });
+}
+
+public static bool IsActiveReward()
+{
+    return _rewardedAd != null && _rewardedAd.CanShowAd();
+}
 
 
 	/// <summary>
@@ -142,7 +167,16 @@ public class AdmobLibrary
 				// Raised when an ad opened full screen content.
 				ad.OnAdFullScreenContentOpened += () => { Debug.Log("Interstitial ad full screen content opened."); };
 				// Raised when the ad closed full screen content.
-				ad.OnAdFullScreenContentClosed += () => { Debug.Log("Interstitial ad full screen content closed."); };
+				// ad.OnAdFullScreenContentClosed += () => { Debug.Log("Interstitial ad full screen content closed."); };
+				ad.OnAdFullScreenContentClosed += () =>
+				{
+					// Debug.Log("Interstitial ad closed -> reload");
+					// InitInterstitial(); // ★次のために再ロード
+					Debug.Log("Interstitial ad full screen content closed. -> reload");
+					ad.Destroy();
+					_interstitialAd = null;
+					InitInterstitial(); // ★次をロード
+				};
 				// Raised when the ad failed to open full screen content.
 				ad.OnAdFullScreenContentFailed += (AdError error) =>
 				{
@@ -168,6 +202,7 @@ public class AdmobLibrary
 		else
 		{
 			Debug.LogError("Interstitial ad is not ready yet.");
+			InitInterstitial(); // ★ここで再ロード
 		}
 	}
 
@@ -226,7 +261,17 @@ public class AdmobLibrary
 				// Raised when an ad opened full screen content.
 				ad.OnAdFullScreenContentOpened += () => { Debug.Log("Rewarded ad full screen content opened."); };
 				// Raised when the ad closed full screen content.
-				ad.OnAdFullScreenContentClosed += () => { Debug.Log("Rewarded ad full screen content closed."); };
+				//ad.OnAdFullScreenContentClosed += () => { Debug.Log("Rewarded ad full screen content closed."); };
+				ad.OnAdFullScreenContentClosed += () =>
+				{
+						Debug.Log("Rewarded ad closed.");
+						OnRewardClosed?.Invoke();
+
+						// ★次を先読み（ここでやると安定）
+						ad.Destroy();
+						_rewardedAd = null;
+						LoadReward();
+				};
 				// Raised when the ad failed to open full screen content.
 				ad.OnAdFullScreenContentFailed += (AdError error) =>
 				{
@@ -249,8 +294,8 @@ public class AdmobLibrary
 				// TODO: Reward the user.
 				Debug.Log(String.Format("Reward ", reward.Type, reward.Amount));
 				OnReward?.Invoke(reward.Amount);
-				_rewardedAd.Destroy();
-				LoadReward();
+				// _rewardedAd.Destroy();
+				// LoadReward();
 			});
 		}
 	}
@@ -270,8 +315,17 @@ public class AdmobLibrary
 	/// リワード
 	/// </summary>
 	/// <returns></returns>
-	public static bool IsActiveReward()
+	// public static bool IsActiveReward()
+	// {
+	// 	return _rewardedAd != null;
+	// }
+
+	/// <summary>
+	/// インタースティシャルが表示可能か
+	/// </summary>
+	public static bool IsInterstitialReady()
 	{
-		return _rewardedAd != null;
+			return _interstitialAd != null && _interstitialAd.CanShowAd();
 	}
+
 }

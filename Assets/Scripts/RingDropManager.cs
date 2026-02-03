@@ -109,38 +109,6 @@ public class RingDropManager : MonoBehaviour
         AdManager.Instance.OnRewardClosed += OnRewardClosed;
     }
 
-    // void OnEnable()
-    // {
-    //     // ★リワード視聴完了（追加投擲OK）を受け取る
-    //     if (AdManager.Instance != null)
-    //     {
-    //         AdManager.Instance.OnExtraThrowGranted += OnExtraThrowGranted;
-    //         AdManager.Instance.OnRewardClosed += OnRewardClosed; // ★追加
-    //     }
-    // }
-
-    // void OnDisable()
-    // {
-    //     if (AdManager.Instance != null)
-    //     {
-    //         AdManager.Instance.OnExtraThrowGranted -= OnExtraThrowGranted;
-    //         AdManager.Instance.OnRewardClosed -= OnRewardClosed; // ★追加
-    //     }
-    // }
-
-    
-
-    // private IEnumerator BindAdEventsWhenReady()
-    // {
-    //     while (AdManager.Instance == null) yield return null;
-
-    //     AdManager.Instance.OnExtraThrowGranted -= OnExtraThrowGranted;
-    //     AdManager.Instance.OnExtraThrowGranted += OnExtraThrowGranted;
-
-    //     AdManager.Instance.OnRewardClosed -= OnRewardClosed;
-    //     AdManager.Instance.OnRewardClosed += OnRewardClosed;
-    // }
-
     void Update()
     {
     #if !UNITY_EDITOR
@@ -196,113 +164,6 @@ public class RingDropManager : MonoBehaviour
     #endif
     }
 
-    // void Update()
-    // {
-    // #if !UNITY_EDITOR
-    //     if (blockInputUntilFingerUp)
-    //     {
-    //         if (Input.touchCount == 0) blockInputUntilFingerUp = false;
-    //         else return;
-    //     }
-    // #endif
-    //     // ★広告直後は入力を捨てる（Time.timeScaleの影響を受けない）
-    //     if (Time.unscaledTime < _inputBlockedUntil) return;
-    //     // 落下中なら入力を無効化
-    //     if (isDropping) return;
-    //     // ★広告直後は「指が完全に離れるまで」落下位置選択を禁止
-    //     if (_blockSelectUntilFingerReleased)
-    //     {
-    //         bool noTouch = Input.touchCount == 0;
-    //         bool noMouse = !Input.GetMouseButton(0);
-
-    //         if (noTouch && noMouse)
-    //         {
-    //             // 指が離れたので解除
-    //             _blockSelectUntilFingerReleased = false;
-    //         }
-    //         else
-    //         {
-    //         // 解除されるまで何もしない（誤タップ吸収）
-    //         return;
-    //         }
-    //     }
-
-    //     if (isDropping) return;
-
-    //     // エディタでは常にマウス、実機モバイルではタッチ、それ以外はマウス
-    //     #if UNITY_EDITOR
-    //     HandleMouseInput();
-    //     #else
-    //     if (Application.isMobilePlatform)
-    //     {
-    //         HandleTouchInput();
-    //     }
-    //     else
-    //     {
-    //         HandleMouseInput();
-    //     }
-    //     #endif
-    //     // ★広告クローズ後の処理はUpdateで必ず走らせる（実機対策）
-    //     if (_rewardClosedThisAd)
-    //     {
-    //         _rewardClosedThisAd = false;
-
-    //         Debug.Log($"[RingDropManager] Process RewardClosed in Update. waitingReward={waitingReward}, earned={_rewardEarnedThisAd}");
-
-    //         // 待機解除
-    //         waitingReward = false;
-
-    //         // ★閉じた直後の入力を吸収（PC/モバイル共通）
-    //         _inputBlockedUntil = Time.unscaledTime + inputBlockSecondsAfterAd;
-    //         suppressNextTouchEnd = true;
-    //         _blockSelectUntilFingerReleased = true;
-    //         hasLastHitPoint = false;
-    //         if (ringMarker != null) ringMarker.SetActive(false);
-
-    //     #if UNITY_EDITOR || UNITY_STANDALONE
-    //         _skipNextSelectClickFrames = 10;
-    //     #endif
-    //         if (EventSystem.current != null)
-    //             EventSystem.current.SetSelectedGameObject(null);
-
-    //         if (_rewardEarnedThisAd)
-    //         {
-    //             _rewardEarnedThisAd = false;
-
-    //             Debug.Log("[RingDropManager] Reward earned -> +1 throw and resume (Update)");
-
-    //             StopContinueAdInteractableRoutine();
-
-    //             // +1回
-    //             maxThrows++;
-    //             UpdateThrowCountUI();
-
-    //             // UIを閉じる
-    //             buttonShowResults.SetActive(false);
-    //             buttonContinueAd.SetActive(false);
-    //             gameOverPanel.SetActive(false);
-    //             if (buttonReturnToTitle != null) buttonReturnToTitle.SetActive(false);
-
-    //             // 投げられる状態へ
-    //             isDropping = false;
-    //             waitingForNextThrow = false;
-
-    //             ReturnToTopView();
-    //         }
-    //         else
-    //         {
-    //             Debug.Log("[RingDropManager] Reward closed without grant -> unlock UI (Update)");
-
-    //             // リワードボタンを戻す
-    //             if (buttonContinueAd != null)
-    //             {
-    //                 var btn = buttonContinueAd.GetComponent<Button>();
-    //                 if (btn != null) btn.interactable = true;
-    //             }
-    //         }
-    //     }
-    // }
-
     // ========================
     // PC / エディタ用（元の挙動）
     // ========================
@@ -341,17 +202,6 @@ public class RingDropManager : MonoBehaviour
             return;
         }
 
-        // 投下位置の選択（クリック）
-        // if (canSelectPosition && !popupUI.activeSelf && Input.GetMouseButtonDown(0) && currentThrows < maxThrows)
-        // {
-        //     Ray ray = topDownCamera.ScreenPointToRay(Input.mousePosition);
-        //     if (Physics.Raycast(ray, out RaycastHit hit))
-        //     {
-        //         Debug.Log("Click select at " + hit.point);
-        //         selectedDropPosition = hit.point;
-        //         popupUI.SetActive(true);
-        //     }
-        // }
         if (_skipNextSelectClickFrames == 0 &&
             canSelectPosition && !popupUI.activeSelf &&
             Input.GetMouseButtonDown(0) && currentThrows < maxThrows)
@@ -366,61 +216,10 @@ public class RingDropManager : MonoBehaviour
 
         // 次の投球へ
         if (waitingForNextThrow && Input.GetMouseButtonDown(0))
-        //{
+        
             ReturnToTopView();
-        //}
     }
 
-    // ========================
-    // スマホ用（指でなぞる → 離した位置でポップアップ）
-    // ========================
-    // private void HandleTouchInput()
-    // {
-    //     // マーカー追従＆投下位置決定
-    //     if (canSelectPosition && !popupUI.activeSelf && currentThrows < maxThrows)
-    //     {
-    //         if (Input.touchCount > 0)
-    //         {
-    //             Touch t = Input.GetTouch(0);
-
-    //             Ray ray = topDownCamera.ScreenPointToRay(t.position);
-    //             if (Physics.Raycast(ray, out RaycastHit hit))
-    //             {
-    //                 // 指の位置にマーカー追従
-    //                 ringMarker.SetActive(true);
-    //                 ringMarker.transform.position = hit.point + Vector3.up * 0.1f;
-
-    //                 lastHitPoint = hit.point;
-    //                 hasLastHitPoint = true;
-    //             }
-
-    //             // 指を離した瞬間に「最後にヒットした位置」で決定
-    //             if (t.phase == TouchPhase.Ended && hasLastHitPoint)
-    //             {
-    //                 selectedDropPosition = lastHitPoint;
-    //                 popupUI.SetActive(true);
-    //             }
-    //         }
-    //         else
-    //         {
-    //             ringMarker.SetActive(false);
-    //         }
-    //     }
-    //     else
-    //     {
-    //         ringMarker.SetActive(false);
-    //     }
-
-    //     // 次の投球へ（画面をタップしたら戻る）
-    //     if (waitingForNextThrow && Input.touchCount > 0)
-    //     {
-    //         Touch t = Input.GetTouch(0);
-    //         if (t.phase == TouchPhase.Began)
-    //         {
-    //             ReturnToTopView();
-    //         }
-    //     }
-    // }
     private void HandleTouchInput()
     {
         if (!(canSelectPosition && !popupUI.activeSelf && currentThrows < maxThrows))
@@ -476,18 +275,6 @@ public class RingDropManager : MonoBehaviour
             popupUI.SetActive(true);
         }
 
-        // 次の投球へ
-        // if (waitingForNextThrow && Input.GetMouseButtonDown(0))
-        // {
-        //     // ★広告復帰直後の1回は無視（ReturnToTopViewまで止める）
-        //     if (_ignoreNextSelectOnce)
-        //     {
-        //         _ignoreNextSelectOnce = false;
-        // return;
-        //     }
-
-        //     ReturnToTopView();
-        // }
         // 次の投球へ（スマホ）
         if (waitingForNextThrow && Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began)
         {
@@ -606,36 +393,6 @@ public class RingDropManager : MonoBehaviour
         if (buttonReturnToTitle != null) buttonReturnToTitle.SetActive(true);
     }
 
-
-    // public void ContinueWithAd()
-    // {
-    //     maxThrows++;
-    //     UpdateThrowCountUI();
-    //     ReturnToTopView();
-
-    //     buttonShowResults.SetActive(false);
-    //     buttonContinueAd.SetActive(false);
-    //     gameOverPanel.SetActive(false);
-    //     if (buttonReturnToTitle != null) buttonReturnToTitle.SetActive(false);
-    // }
-
-    // private void ReturnToTopView()
-    // {
-    //     topDownCamera.transform.position = topDownInitialPosition;
-    //     topDownCamera.gameObject.SetActive(true);
-    //     mainCamera.gameObject.SetActive(false);
-
-    //     canSelectPosition = true;
-    //     waitingForNextThrow = false;
-    //     hasLastHitPoint = false; // 念のためリセット
-    // }
-
-    // // ★ここがReturnボタン用メソッド
-    // public void ReturnToTitle()
-    // {
-    //     Debug.Log("[RingDropManager] ReturnToTitle called");
-    //     SceneManager.LoadScene("Title"); // タイトルシーンの正確な名前に変更
-    // }
     // =========================
     // ★ContinueAdボタン用：広告を見る → 視聴完了で +1 → 再開
     // =========================
@@ -668,250 +425,52 @@ public class RingDropManager : MonoBehaviour
         }
 
         AdManager.Instance.ShowRewardForExtraThrow();
-    // #if UNITY_EDITOR || UNITY_STANDALONE
-    // _skipNextSelectClickFrames = 10; // ★広告を開く前にも、選択クリックを捨てる
-    // #endif
-    //     Debug.Log("[RingDropManager] WatchRewardAndContinue clicked");
-    //     // ★広告を開く直前にも入力を止める
-    //     _inputBlockedUntil = Time.unscaledTime + inputBlockSecondsAfterAd;
-
-    //     // 連打防止
-    //     if (waitingReward) return;
-    //     waitingReward = true;
-    //     //_rewardGrantedThisAd = false;
-    //     _rewardEarnedThisAd = false;   // ★今回の広告ではまだ報酬なし
-
-    //     // ボタンを押せなくする
-    //     var btn = buttonContinueAd.GetComponent<Button>();
-    //     if (btn != null) btn.interactable = false;
-
-    //     if (AdManager.Instance == null)
-    //     {
-    //         Debug.LogError("[RingDropManager] AdManager.Instance is null");
-    //         waitingReward = false;
-    //         if (btn != null) btn.interactable = true;
-    //         return;
-    //     }
-
-    //     // 広告が未準備ならロードして終了（無反応防止）
-    //     if (!AdManager.Instance.IsRewardReady())
-    //     {
-    //         Debug.LogWarning("[RingDropManager] Reward not ready. Please wait...");
-    //         // 次の更新ルーチンで押せるようになる想定
-    //         waitingReward = false;
-    //         return;
-    //     }
-
-    //     // ここで広告を表示（視聴完了時は OnExtraThrowGranted が呼ばれる）
-    //     AdManager.Instance.ShowRewardForExtraThrow();
     }
 
-    // ★視聴完了（報酬付与）で呼ばれる
-    // private void OnExtraThrowGranted()
-    // {
-    //     _rewardGrantedThisAd = true;
-    //     if (!waitingReward) return;
-    //     waitingReward = false;
-
-    //     Debug.Log("[RingDropManager] Reward granted -> +1 throw and resume");
-
-    //     StopContinueAdInteractableRoutine();
-
-    //     // +1回
-    //     maxThrows++;
-    //     UpdateThrowCountUI();
-
-    //     // UIを閉じる
-    //     buttonShowResults.SetActive(false);
-    //     buttonContinueAd.SetActive(false);
-    //     gameOverPanel.SetActive(false);
-    //     if (buttonReturnToTitle != null) buttonReturnToTitle.SetActive(false);
-
-    //     // ★投げられる状態へ戻す
-    //     isDropping = false;
-    //     waitingForNextThrow = false;
-
-    //       // ★ここから追加
-    //     _inputBlockedUntil = Time.unscaledTime + inputBlockSecondsAfterAd;
-
-    //     // タッチ位置のキャッシュを消す（古い場所を使わない）
-    //     hasLastHitPoint = false;
-
-    //     // 次のTouch Endを一回だけ無視（あなたの既存仕組みを活かす）
-    //     suppressNextTouchEnd = true;
-
-    //     // UIの選択状態も外す（稀にボタンが“押されっぱなし”になる対策）
-    //     if (EventSystem.current != null)
-    //         EventSystem.current.SetSelectedGameObject(null);
-    //         // ★ここから追加（最重要）
-    //     _blockSelectUntilFingerReleased = true;
-
-    //     // 古いヒット位置を消す（これをやらないと「前の座標」で確定しがち）
-    //     hasLastHitPoint = false;
-    //     suppressNextTouchEnd = true;
-    //     ringMarker.SetActive(false);
-
-    //     // 既存：投げられる状態へ
-    //     isDropping = false;
-    //     waitingForNextThrow = false;
-
-    //     _skipNextSelectClickFrames = 10; // ★10フレーム分、選択クリックを無効化（PCでも確実）
-
-    //     ReturnToTopView();
-    // }
     private void OnExtraThrowGranted()
     {
-        //rewardEarnedThisAd = false;
+        Debug.Log("[RingDropManager] OnExtraThrowGranted -> apply +1 and resume");
 
-        // if (!waitingReward) return;
-        // Debug.Log("[RingDropManager] Reward earned (wait close)");
-        // _rewardEarnedThisAd = true;
-        if (!waitingReward) return;
-
-        Debug.Log("[RingDropManager] Reward earned -> resume");
-
-        rewardEarnedThisAd = true;
+        // 待機解除（念のため waitingReward が false でも復帰だけは走らせる）
         waitingReward = false;
 
-        // +1
-        maxThrows++;
-        UpdateThrowCountUI();
-
-        // UI閉じる
-
-    public void ShowReword()
-    {
-        //リワード呼ぶ
-        AdManager.Instance.ShowRewarded();
-    }
-
-    void OnEnable()
-    {
-        AdmobLibrary.OnReward += OnRewarded;   // 報酬受け取り
-    }
-
-    void OnDisable()
-    {
-        AdmobLibrary.OnReward -= OnRewarded;
-    }
-
-    //リワードを受け取った
-    private void OnRewarded(double amount)
-    {
-        Debug.Log("OnRewarded リワードを受け取ったので報酬を反映する" );
-        // ここで「追加投球」を付与
+        // +1回（残り回数が1増える）
         maxThrows += 1;
         UpdateThrowCountUI();
 
-        // 次の投球へ戻す
-        buttonShowResults.SetActive(false);
-        buttonContinueAd.SetActive(false);
-        gameOverPanel.SetActive(false);
+        // ★Confirm残存対策：必ず閉じる
+        if (popupUI != null) popupUI.SetActive(false);
+
+        // ★結果/リワードUIを必ず閉じる
+        if (buttonShowResults != null) buttonShowResults.SetActive(false);
+        if (buttonContinueAd != null) buttonContinueAd.SetActive(false);
+        if (gameOverPanel != null) gameOverPanel.SetActive(false);
+        if (resultPanel != null) resultPanel.SetActive(false);
         if (buttonReturnToTitle != null) buttonReturnToTitle.SetActive(false);
 
-        // 状態戻す
+        // 状態を「次の投球を選べる」へ
         isDropping = false;
         waitingForNextThrow = false;
-        _ignoreNextSelectOnce = true;
+        canSelectPosition = true;
 
-        // ★広告復帰後：一定時間＋1クリック無視で落下選択を防ぐ
-        _inputBlockedUntil = Time.unscaledTime + 0.8f;  // 0.6〜1.2で調整
-        _ignoreNextSelectOnce = true;
-        _blockSelectThisFrame = true;
+        // タッチ/マーカー系のキャッシュをリセット
         suppressNextTouchEnd = true;
         hasLastHitPoint = false;
         if (ringMarker != null) ringMarker.SetActive(false);
 
+        // ★広告直後の誤入力を吸収（Confirmが勝手に出るのを止める）
+        _inputBlockedUntil = Time.unscaledTime + 0.8f;
+        _blockSelectThisFrame = true;
+        _blockSelectUntilFingerReleased = true; // 指が完全に離れるまで選択禁止
+        _ignoreNextSelectOnce = true;
+
+        // UI選択状態を解除（ボタン押しっぱなし対策）
+        if (EventSystem.current != null)
+            EventSystem.current.SetSelectedGameObject(null);
+
+        // ★必ずTopViewへ戻す（実機で海中のままを防ぐ）
         ReturnToTopView();
-
-        rewardEarnedThisAd = false;
-        // StartCoroutine(ResumeSelectAfterInputReleased());
     }
-
-    // ★広告を閉じたが、報酬が来なかった場合の解除処理
-    // private void OnRewardClosed()
-    // {
-    //     // ★報酬ありで閉じたなら何もしない（再開処理は OnExtraThrowGranted 側で完了している）
-    //     if (_rewardGrantedThisAd)
-    //     {
-    //         _rewardGrantedThisAd = false; // 次のために戻す
-    //         return;
-    //     }
-    // }
-    //     if (!waitingReward) return;
-
-    //     Debug.Log("[RingDropManager] Reward closed without grant -> unlock UI");
-
-    //     waitingReward = false;
-
-    //     // リワードボタンを戻す
-    //     if (buttonContinueAd != null)
-    //     {
-    //         var btn = buttonContinueAd.GetComponent<Button>();
-    //         if (btn != null) btn.interactable = true;
-    //     }
-
-    //     // 入力ブロック解除（念のため）
-    //     _inputBlockedUntil = Time.unscaledTime + 0.2f;
-    //     suppressNextTouchEnd = true;
-
-    //     if (EventSystem.current != null)
-    //         EventSystem.current.SetSelectedGameObject(null);
-    // }
-
-    // private void OnRewardClosed()
-    // {
-    //     // 待ってないなら無視
-    //     if (!waitingReward) return;
-
-    //     // ★共通：閉じた直後の入力を吸収（PC/モバイル両方）
-    //     _inputBlockedUntil = Time.unscaledTime + inputBlockSecondsAfterAd;
-    //     suppressNextTouchEnd = true;
-    //     _blockSelectUntilFingerReleased = true;
-    //     hasLastHitPoint = false;
-    //     ringMarker.SetActive(false);
-    // #if UNITY_EDITOR || UNITY_STANDALONE
-    //     _skipNextSelectClickFrames = 10;
-    // #endif
-    //     if (EventSystem.current != null)
-    //         EventSystem.current.SetSelectedGameObject(null);
-
-    //     if (_rewardEarnedThisAd)
-    //     {
-    //         // ===== 報酬あり：ここで初めて再開 =====
-    //         Debug.Log("[RingDropManager] Reward closed with grant -> resume");
-
-    //         waitingReward = false;
-    //         _rewardEarnedThisAd = false;
-
-    //         StopContinueAdInteractableRoutine();
-
-    //         maxThrows++;
-    //         UpdateThrowCountUI();
-
-    //         buttonShowResults.SetActive(false);
-    //         buttonContinueAd.SetActive(false);
-    //         gameOverPanel.SetActive(false);
-    //         if (buttonReturnToTitle != null) buttonReturnToTitle.SetActive(false);
-
-    //         isDropping = false;
-    //         waitingForNextThrow = false;
-
-    //         ReturnToTopView();
-    //         return;
-    //     }
-
-    //     // ===== 報酬なし：UIだけ戻す =====
-    //     Debug.Log("[RingDropManager] Reward closed without grant -> unlock UI");
-
-    //     waitingReward = false;
-
-    //     if (buttonContinueAd != null)
-    //     {
-    //         var btn = buttonContinueAd.GetComponent<Button>();
-    //         if (btn != null) btn.interactable = true;
-    //     }
-    // }
 
     private void OnRewardClosed()
     {
@@ -951,65 +510,25 @@ public class RingDropManager : MonoBehaviour
         hasLastHitPoint = false;
         if (ringMarker != null) ringMarker.SetActive(false);
 
-    }
-
-    // private void OnRewardClosed()
-    // {
-    //     // ★報酬ありで閉じたなら何もしない（再開処理は OnExtraThrowGranted 側で完了している）
-    //     if (_rewardGrantedThisAd)
-    //     {
-    //         _rewardGrantedThisAd = false; // 次のために戻す
-
-    //         // ★念のため：閉じた直後の入力を吸収（報酬ありでも誤タップ防止）
-    //         _inputBlockedUntil = Time.unscaledTime + inputBlockSecondsAfterAd;
-    //         suppressNextTouchEnd = true;
-    //         _blockSelectUntilFingerReleased = true;
-    //         hasLastHitPoint = false;
-    //         ringMarker.SetActive(false);
-
-    // #if UNITY_EDITOR || UNITY_STANDALONE
-    //         _skipNextSelectClickFrames = 10;
-    // #endif
-    //         if (EventSystem.current != null)
-    //             EventSystem.current.SetSelectedGameObject(null);
-
-    //         return;
-    //     }
-
-    //     // ★報酬なしで閉じた場合：待機状態じゃなければ無視
-    //     if (!waitingReward) return;
-
-    //     Debug.Log("[RingDropManager] Reward closed without grant -> unlock UI");
-
-    //     waitingReward = false;
-
-    //     // リワードボタンを戻す
-    //     if (buttonContinueAd != null)
-    //     {
-    //         var btn = buttonContinueAd.GetComponent<Button>();
-    //         if (btn != null) btn.interactable = true;
-    //     }
-
-    //     // ★閉じた直後の入力を吸収（報酬なしでも誤タップ防止）
-    //     _inputBlockedUntil = Time.unscaledTime + inputBlockSecondsAfterAd;
-    //     suppressNextTouchEnd = true;
-    //     _blockSelectUntilFingerReleased = true;
-    //     hasLastHitPoint = false;
-    //     ringMarker.SetActive(false);
-
-    // #if UNITY_EDITOR || UNITY_STANDALONE
-    //     _skipNextSelectClickFrames = 10;
-    // #endif
-
-    //     if (EventSystem.current != null)
-    //         EventSystem.current.SetSelectedGameObject(null);
-    // }
-
     // =========================
     // （任意）広告を見ずに続行する処理は使わない想定
     // もし既存で割り当て済みなら、OnClickは WatchRewardAndContinue に変更してください
     // =========================
         ReturnToTopView();
+        // ★閉じた直後の誤入力を吸収（Confirm残存防止）
+        _inputBlockedUntil = Time.unscaledTime + 0.6f;
+        _blockSelectThisFrame = true;
+        _blockSelectUntilFingerReleased = true;
+        _ignoreNextSelectOnce = true;
+
+        suppressNextTouchEnd = true;
+        hasLastHitPoint = false;
+        if (ringMarker != null) ringMarker.SetActive(false);
+        if (popupUI != null) popupUI.SetActive(false);
+
+        if (EventSystem.current != null)
+            EventSystem.current.SetSelectedGameObject(null);
+
     }
 
     public void ContinueWithAd()
@@ -1086,26 +605,4 @@ public class RingDropManager : MonoBehaviour
             yield return new WaitForSeconds(0.5f);
         }
     }
-
-    // private IEnumerator ResumeSelectAfterInputReleased()
-    // {
-    //     // まずは今フレームの入力を捨てる
-    //     yield return null;
-
-    //     // 押しっぱなしが残っている間は待つ（マウス/タッチ両対応）
-    //     while (Input.GetMouseButton(0) || Input.touchCount > 0)
-    //         yield return null;
-
-    //     // 念のため1フレーム余裕
-    //     yield return null;
-
-    //     // ここで初めて選択可能に戻す
-    //     canSelectPosition = true;
-
-    //     // 余波対策
-    //     suppressNextTouchEnd = true;   // タッチ用（あなたの既存機構）
-    //     _ignoreNextSelectOnce = true;  // マウス用（あなたの既存機構）
-    // }
-
 }
-

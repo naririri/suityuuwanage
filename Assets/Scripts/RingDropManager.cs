@@ -45,18 +45,18 @@ public class RingDropManager : MonoBehaviour
     private Coroutine continueBtnRoutine;
     private int _skipNextSelectClickFrames = 0;
     // ★広告から戻った直後の入力を捨てる
-    [SerializeField] private float inputBlockSecondsAfterAd = 0.5f;
+    //[SerializeField] private float inputBlockSecondsAfterAd = 0.5f;
     private float _inputBlockedUntil = 0f;
     // ★広告後の入力を完全にクリアするまで待つ
     private bool _blockSelectUntilFingerReleased = false;
-    private bool blockInputUntilFingerUp = false;
+    //private bool blockInputUntilFingerUp = false;
     //private bool _rewardGrantedThisAd = false;
     //private bool _rewardEarnedThisAd = false;// earned(報酬取得)だけを示す
     //private bool _rewardClosedThisAd = false; // ★閉じた通知をUpdateで処理する
     private bool rewardEarnedThisAd = false;
     private bool _ignoreNextSelectOnce = false; // ★広告後の “1回だけ” 選択を無視
     private bool _blockSelectThisFrame = false; // 広告直後の1回だけ選択を無効化
-
+    
 
     void Start()
     {
@@ -176,14 +176,14 @@ public class RingDropManager : MonoBehaviour
         }
 
         // デバッグ：ちゃんとここに入っているか
-        Debug.Log("HandleMouseInput running");
+        //Debug.Log("HandleMouseInput running");
         // マーカー追従
         if (canSelectPosition && !popupUI.activeSelf && currentThrows < maxThrows)
         {
             Ray ray = topDownCamera.ScreenPointToRay(Input.mousePosition);
             if (Physics.Raycast(ray, out RaycastHit hit))
             {
-                Debug.Log("Raycast hit at " + hit.point);
+                //Debug.Log("Raycast hit at " + hit.point);
                 ringMarker.SetActive(true);
                 ringMarker.transform.position = hit.point + Vector3.up * 0.1f;
             }
@@ -398,7 +398,7 @@ public class RingDropManager : MonoBehaviour
     // =========================
     public void WatchRewardAndContinue()
     {
-        Debug.Log("[RingDropManager] WatchRewardAndContinue clicked");
+        //Debug.Log("[RingDropManager] WatchRewardAndContinue clicked");
 
         if (waitingReward) return;
         waitingReward = true;
@@ -410,7 +410,7 @@ public class RingDropManager : MonoBehaviour
 
         if (AdManager.Instance == null)
         {
-            Debug.LogError("[RingDropManager] AdManager.Instance is null");
+            //Debug.LogError("[RingDropManager] AdManager.Instance is null");
             waitingReward = false;
             if (btn != null) btn.interactable = true;
             return;
@@ -418,7 +418,7 @@ public class RingDropManager : MonoBehaviour
 
         if (!AdManager.Instance.IsRewardReady())
         {
-            Debug.LogWarning("[RingDropManager] Reward not ready -> Load and unlock");
+            //Debug.LogWarning("[RingDropManager] Reward not ready -> Load and unlock");
             waitingReward = false;
             if (btn != null) btn.interactable = true;
             return;
@@ -429,7 +429,7 @@ public class RingDropManager : MonoBehaviour
 
     private void OnExtraThrowGranted()
     {
-        Debug.Log("[RingDropManager] OnExtraThrowGranted -> apply +1 and resume");
+        //Debug.Log("[RingDropManager] OnExtraThrowGranted -> apply +1 and resume");
 
         // 待機解除（念のため waitingReward が false でも復帰だけは走らせる）
         waitingReward = false;
@@ -454,19 +454,26 @@ public class RingDropManager : MonoBehaviour
         canSelectPosition = true;
 
         // タッチ/マーカー系のキャッシュをリセット
-        suppressNextTouchEnd = true;
+        //suppressNextTouchEnd = true;
         hasLastHitPoint = false;
         if (ringMarker != null) ringMarker.SetActive(false);
 
         // ★広告直後の誤入力を吸収（Confirmが勝手に出るのを止める）
-        _inputBlockedUntil = Time.unscaledTime + 0.8f;
+        _inputBlockedUntil = Time.unscaledTime + 0.25f;
         _blockSelectThisFrame = true;
         _blockSelectUntilFingerReleased = true; // 指が完全に離れるまで選択禁止
-        _ignoreNextSelectOnce = true;
 
-        // UI選択状態を解除（ボタン押しっぱなし対策）
-        if (EventSystem.current != null)
-            EventSystem.current.SetSelectedGameObject(null);
+        // ★ここがポイント：二重で無視を積まない
+        _ignoreNextSelectOnce = false;
+        //suppressNextTouchEnd = true;
+        suppressNextTouchEnd = false;                   // ←OFF
+        // hasLastHitPoint = false;
+        // if (ringMarker != null) ringMarker.SetActive(false);
+        // // UI選択状態を解除（ボタン押しっぱなし対策）
+        // if (EventSystem.current != null)
+        //     EventSystem.current.SetSelectedGameObject(null);
+        
+       //_ignoreNextSelectOnce = true;
 
         // ★必ずTopViewへ戻す（実機で海中のままを防ぐ）
         ReturnToTopView();
@@ -491,7 +498,7 @@ public class RingDropManager : MonoBehaviour
             return;
         }
 
-        Debug.Log("[RingDropManager] Reward closed without grant -> unlock");
+        //Debug.Log("[RingDropManager] Reward closed without grant -> unlock");
 
         waitingReward = false;
 
@@ -516,11 +523,11 @@ public class RingDropManager : MonoBehaviour
     // =========================
         ReturnToTopView();
         // ★閉じた直後の誤入力を吸収（Confirm残存防止）
-        _inputBlockedUntil = Time.unscaledTime + 0.6f;
+        _inputBlockedUntil = Time.unscaledTime + 0.25f;
         _blockSelectThisFrame = true;
         _blockSelectUntilFingerReleased = true;
-        _ignoreNextSelectOnce = true;
-
+        //_ignoreNextSelectOnce = true;
+        _ignoreNextSelectOnce = false;
         suppressNextTouchEnd = true;
         hasLastHitPoint = false;
         if (ringMarker != null) ringMarker.SetActive(false);
@@ -533,7 +540,7 @@ public class RingDropManager : MonoBehaviour
 
     public void ContinueWithAd()
     {
-        Debug.LogWarning("[RingDropManager] ContinueWithAd() is legacy. Use WatchRewardAndContinue().");
+        //Debug.LogWarning("[RingDropManager] ContinueWithAd() is legacy. Use WatchRewardAndContinue().");
         // ここは残しておくが、広告なしで+1するだけになるので使わない方が良い
         maxThrows++;
         UpdateThrowCountUI();
@@ -564,7 +571,7 @@ public class RingDropManager : MonoBehaviour
     {
         // Debug.Log("[RingDropManager] ReturnToTitle called");
         // SceneManager.LoadScene("Title");
-         Debug.Log("[RingDropManager] ReturnToTitle called");
+         //Debug.Log("[RingDropManager] ReturnToTitle called");
 
         // ★Titleに戻ったら出したいのでフラグON
         if (AdManager.Instance != null)

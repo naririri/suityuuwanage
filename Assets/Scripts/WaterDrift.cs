@@ -40,25 +40,6 @@ public class WaterDrift : MonoBehaviour
         ).normalized;
     }
 
-    // void FixedUpdate()
-    // {
-    //     // 横方向にゆらゆら揺れる
-    //     float drift = Mathf.Sin(Time.time * driftFrequency) * driftStrength;
-    //     Vector3 sideForce = initialDirection * drift;
-
-    //     //rb.AddForce(sideForce, ForceMode.Force);
-    //     rb.AddForce(sideForce * 2f, ForceMode.Force);
-
-    //     // ✅ 潮流（CurrentManager）からの外力を受ける
-    //     if (CurrentManager.Instance != null)
-    //     {
-    //         //Vector3 currentForce = CurrentManager.Instance.GetCurrentForce() * currentInfluence;
-    //         Vector3 currentForce = CurrentManager.Instance.GetCurrentForce(transform.position);
-    //         rb.AddForce(currentForce, ForceMode.Force);
-    //     }
-    //     // 水中の抵抗を再現（空気抵抗のように速度を減衰）
-    //     rb.linearVelocity *= resistance;
-    // }
     void FixedUpdate()
         {
             if (!rb) return;

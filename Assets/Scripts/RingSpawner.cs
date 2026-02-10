@@ -27,13 +27,6 @@ public class RingSpawner : MonoBehaviour
             if (Physics.Raycast(ray, out hit))
             {
                 Vector3 spawnPos = hit.point + Vector3.up * spawnHeight;
-                // Instantiate(ringPrefab, spawnPos, Quaternion.identity);
-                // Before（rotation 指定なし）
-                //Instantiate(ringPrefab, spawnPos, Quaternion.identity);
-
-                // After（rotation を指定して寝かせる）
-                // Quaternion rotation = Quaternion.Euler(90, 0, 0);
-                // Instantiate(ringPrefab, spawnPos, rotation);
                 Quaternion rotation = Quaternion.Euler(0, 0, 0); // Unity側で真っ直ぐにしたい方向に調整
                 Instantiate(ringPrefab, spawnPos, rotation);
 

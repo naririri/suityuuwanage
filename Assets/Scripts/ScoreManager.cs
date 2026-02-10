@@ -5,62 +5,6 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-// public class ScoreManager : MonoBehaviour
-// {
-//     public static ScoreManager Instance;
-//     public int totalScore = 0;
-//     //public Text scoreText;
-//     public TextMeshProUGUI scoreText;
-
-//     void Awake()
-//     {
-//         Instance = this;
-//     }
-
-//     public void AddScore(int score)
-//     {
-//         totalScore += score;
-//         UpdateUI();
-//     }
-
-//     void UpdateUI()
-//     {
-//         if (scoreText != null)
-//             scoreText.text = "Score: " + totalScore;
-//     }
-// }
-
-// ScoreManager.cs（抜粋）
-// public class ScoreManager : MonoBehaviour
-// {
-//     public static ScoreManager Instance;
-//     public static event Action<int> OnScoreAdded; // ← 追加：加点量を通知
-
-//     public int totalScore = 0;
-//     public TextMeshProUGUI scoreText;
-
-//     void Awake()
-//     {
-//         Instance = this;
-//     }
-
-//     public void AddScore(int score)
-//     {
-//         totalScore += score;
-//         UpdateUI();
-
-//         // ここでイベント発火
-//         OnScoreAdded?.Invoke(score);
-//     }
-
-//     void UpdateUI()
-//     {
-//         if (scoreText != null)
-//             scoreText.text = "Score: " + totalScore;
-//     }
-// }
-
-
 public class ScoreManager : MonoBehaviour
 {
     public static ScoreManager Instance;

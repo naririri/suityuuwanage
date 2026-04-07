@@ -1,5 +1,5 @@
 # ninja log v5
-366	551	1769520167085973036	/Users/takahashimasanari/UnityProjects/UnderwaterRingToss/Library/Bee/Android/Prj/IL2CPP/Gradle/unityLibrary/build/intermediates/cxx/Debug/444366j6/obj/arm64-v8a/libswappywrapper.so	8264a07c3685bd1d
-1	365	1769520166917008630	FramePacing/CMakeFiles/swappywrapper.dir/UnitySwappyWrapper.cpp.o	db61dc02c495ca0d
 5	659	1770553055283230818	FramePacing/CMakeFiles/swappywrapper.dir/UnitySwappyWrapper.cpp.o	db61dc02c495ca0d
 659	1139	1770553055718543678	/Users/takahashimasanari/UnityProjects/UnderwaterRingToss/Library/Bee/Android/Prj/IL2CPP/Gradle/unityLibrary/build/intermediates/cxx/Debug/444366j6/obj/arm64-v8a/libswappywrapper.so	8264a07c3685bd1d
+3	223	1775051586546882714	FramePacing/CMakeFiles/swappywrapper.dir/UnitySwappyWrapper.cpp.o	db61dc02c495ca0d
+223	410	1775051586690994802	/Users/takahashimasanari/UnityProjects/UnderwaterRingToss/Library/Bee/Android/Prj/IL2CPP/Gradle/unityLibrary/build/intermediates/cxx/Debug/444366j6/obj/arm64-v8a/libswappywrapper.so	8264a07c3685bd1d

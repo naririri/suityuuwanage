@@ -1870,13 +1870,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 633572540}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.17364816, y: 0, z: 0, w: 0.9848078}
+  m_LocalRotation: {x: 0.19936788, y: 0, z: 0, w: 0.97992474}
   m_LocalPosition: {x: 0, y: 5.68, z: -10.83}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 20, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 23, y: 0, z: 0}
 --- !u!45 &633572544
 Skybox:
   m_ObjectHideFlags: 0
@@ -8631,11 +8631,9 @@ MonoBehaviour:
   topDownCamera: {fileID: 1432398196}
   mainCamera: {fileID: 633572542}
   ringPrefab: {fileID: 6156131845659802069, guid: cb4a23992e9314f7fa5e125cfab9950e, type: 3}
-  popupUI: {fileID: 484793025}
-  splashSound: {fileID: 8300000, guid: 084d3709a06aa48e28be92cbc45ffe26, type: 3}
   spawnHeight: 10
   ringMarker: {fileID: 1479399293}
-  maxThrows: 5
+  popupUI: {fileID: 484793025}
   throwCountText: {fileID: 159978970}
   gameOverPanel: {fileID: 183885108}
   buttonShowResults: {fileID: 611836609}
@@ -8647,7 +8645,7 @@ MonoBehaviour:
   goldTorus: {fileID: 1668653160}
   crownGold: {fileID: 1494080824}
   crownSilver: {fileID: 1761334818}
-  inputBlockSecondsAfterAd: 0.5
+  maxThrows: 5
 --- !u!4 &1770604058
 Transform:
   m_ObjectHideFlags: 0
